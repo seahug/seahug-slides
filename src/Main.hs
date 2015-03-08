@@ -22,4 +22,5 @@ main = do
          (runEitherT $ initHeist heistConfig)
     builder <- maybe (error "oops") fst $
          renderTemplate heistState "templates/index"
-    toByteStringIO B.putStr builder
+    let html = toByteString builder
+    B.writeFile "static/index.html" html
