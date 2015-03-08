@@ -165,6 +165,16 @@
         height: 528,
         navigation: false
       });
+
+      $(window).keyup(function(e) {
+        var key = e.which | e.keyCode;
+        if (key === 37) { // Left arrow
+          $("a.slidesjs-previous").click();
+        }
+        else if (key === 39) { // Right arrow
+          $("a.slidesjs-next").click();
+        }
+      });
     });
   </script>
   <!-- End SlidesJS Required -->
