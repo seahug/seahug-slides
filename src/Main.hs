@@ -29,7 +29,11 @@ runtime fileName = liftIO $ do
 splice :: Splice IO
 splice = do
   input <- getParamNode
-  return $ C.yieldRuntimeText $ runtime "HelloWorld.hs"
+  let
+    fileName = case X.getAttribute "file" input of
+      Just value -> T.unpack value
+      Nothing -> error "No attribute \"file\""
+  return $ C.yieldRuntimeText $ runtime fileName
 
 main :: IO ()
 main = do
