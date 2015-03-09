@@ -161,12 +161,12 @@ import Text.Blaze.Html.Renderer.String (renderHtml)
 import qualified Data.ByteString as B
 import qualified Data.Text as T
 
-escapeHtml :: String -> String
+escapeHtml :: String -&gt; String
 escapeHtml = renderHtml . toHtml
 
 runtime :: RuntimeSplice IO T.Text
 runtime = liftIO $ do
-  T.pack <$> readFile "src/Main.hs"
+  T.pack &lt;$&gt; escapeHtml &lt;$&gt; readFile &quot;src/Main.hs&quot;
 
 splice :: Splice IO
 splice = return $ C.yieldRuntimeText $ runtime
@@ -176,17 +176,17 @@ main = do
   let
     heistConfig = mempty
       {
-        hcCompiledSplices = "code-snippet" ## splice,
-        hcTemplateLocations = [loadTemplates "."]
+        hcCompiledSplices = &quot;code-snippet&quot; ## splice,
+        hcTemplateLocations = [loadTemplates &quot;.&quot;]
       }
-  heistState <- either (error "Malformed template?") id <$>
+  heistState &lt;- either (error &quot;Malformed template?&quot;) id &lt;$&gt;
        (runEitherT $ initHeist heistConfig)
-  builder <- maybe (error "oops") fst $
-       renderTemplate heistState "templates/index"
+  builder &lt;- maybe (error &quot;oops&quot;) fst $
+       renderTemplate heistState &quot;templates/index&quot;
 
   let html = toByteString builder
-  B.writeFile "static/index.html" html
-  putStrLn "Done"
+  B.writeFile &quot;static/index.html&quot; html
+  putStrLn &quot;Done&quot;
 
 &#10;      </div>&#10;      <a href='#' class='slidesjs-previous slidesjs-navigation'><i class='icon-chevron-left icon-large'></i></a>&#10;      <a href='#' class='slidesjs-next slidesjs-navigation'><i class='icon-chevron-right icon-large'></i></a>&#10;    </div>&#10;  </div>&#10;  <!-- End SlidesJS Required: Start Slides -->&#10;
   <!-- SlidesJS Required: Link to jQuery -->&#10;  <script src='js/jquery-1.9.1.min.js'></script>&#10;  <!-- End SlidesJS Required -->&#10;
