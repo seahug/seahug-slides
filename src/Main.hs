@@ -7,8 +7,12 @@ import Control.Monad.Trans.Either
 import Data.Monoid
 import Heist
 import Heist.Compiled as C
-import Text.XML
+import Text.Blaze.Html (toHtml)
+import Text.Blaze.Html.Renderer.String (renderHtml)
 import qualified Data.ByteString as B
+
+escapeHtml :: String -> String
+escapeHtml = renderHtml . toHtml
 
 splice :: Splice IO
 splice = C.runChildren
@@ -28,4 +32,4 @@ main = do
 
   let html = toByteString builder
   B.writeFile "static/index.html" html
-  putStrLn encodeHtml '<em>HELLO</em>'
+  putStrLn $ escapeHtml "<em>HELLO</em>"

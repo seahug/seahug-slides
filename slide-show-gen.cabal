@@ -22,6 +22,7 @@ executable slide-show-gen
   -- other-extensions:    
   build-depends:        base >=4.7 && <4.8,
                         blaze-builder,
+                        blaze-html,
                         bytestring,
                         either,
                         heist >= 0.13 && < 0.14
