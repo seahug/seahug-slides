@@ -7,6 +7,7 @@ import Control.Monad.Trans.Either
 import Data.Monoid
 import Heist
 import Heist.Compiled as C
+import Text.XML
 import qualified Data.ByteString as B
 
 splice :: Splice IO
@@ -27,3 +28,4 @@ main = do
 
   let html = toByteString builder
   B.writeFile "static/index.html" html
+  putStrLn encodeHtml '<em>HELLO</em>'
