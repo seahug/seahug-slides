@@ -153,6 +153,8 @@
         Language extension of interest: view patterns
       </div>
       <div>
+        Heist and how I generated this slide deck!
+      <div>
         <code-snippet/>
       </div>
       <a href="#" class="slidesjs-previous slidesjs-navigation"><i class="icon-chevron-left icon-large"></i></a>
