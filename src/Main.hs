@@ -19,7 +19,11 @@ escapeHtml = renderHtml . toHtml
 
 runtime :: RuntimeSplice IO T.Text
 runtime = liftIO $ do
-  T.pack <$> S.replace "\n" "<br/>\n" <$> escapeHtml <$> readFile "src/Main.hs"
+  T.pack <$>
+    S.replace " " "&nbsp;" <$>
+    S.replace "\n" "<br/>\n" <$>
+    escapeHtml <$>
+    readFile "src/Main.hs"
 
 splice :: Splice IO
 splice = return $ C.yieldRuntimeText $ runtime

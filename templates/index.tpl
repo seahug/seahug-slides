@@ -158,7 +158,7 @@
         Heist and how I generated this slide deck!
       </div>
       <div>
-        <code-snippet file="../src/Main.hs"/>
+        <tt><code-snippet file="../src/Main.hs"/></tt>
       </div>
       <a href="#" class="slidesjs-previous slidesjs-navigation"><i class="icon-chevron-left icon-large"></i></a>
       <a href="#" class="slidesjs-next slidesjs-navigation"><i class="icon-chevron-right icon-large"></i></a>

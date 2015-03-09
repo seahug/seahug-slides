@@ -146,50 +146,54 @@
         Language extension of interest: view patterns
       </div>&#10;      <div>
         Heist and how I generated this slide deck!
-      </div>&#10;      <div>&#10;        {-# LANGUAGE OverloadedStrings  #-}<br/>
+      </div>&#10;      <div>&#10;        <tt>{-#&nbsp;LANGUAGE&nbsp;OverloadedStrings&nbsp;&nbsp;#-}<br/>
 <br/>
-import Blaze.ByteString.Builder<br/>
-import Control.Applicative<br/>
-import Control.Monad<br/>
-import Control.Monad.IO.Class<br/>
-import Control.Monad.Trans.Either<br/>
-import Data.Monoid<br/>
-import Data.String.Utils as S<br/>
-import Heist<br/>
-import Heist.Compiled as C<br/>
-import Text.Blaze.Html (toHtml)<br/>
-import Text.Blaze.Html.Renderer.String (renderHtml)<br/>
-import qualified Data.ByteString as B<br/>
-import qualified Data.Text as T<br/>
+import&nbsp;Blaze.ByteString.Builder<br/>
+import&nbsp;Control.Applicative<br/>
+import&nbsp;Control.Monad<br/>
+import&nbsp;Control.Monad.IO.Class<br/>
+import&nbsp;Control.Monad.Trans.Either<br/>
+import&nbsp;Data.Monoid<br/>
+import&nbsp;Data.String.Utils&nbsp;as&nbsp;S<br/>
+import&nbsp;Heist<br/>
+import&nbsp;Heist.Compiled&nbsp;as&nbsp;C<br/>
+import&nbsp;Text.Blaze.Html&nbsp;(toHtml)<br/>
+import&nbsp;Text.Blaze.Html.Renderer.String&nbsp;(renderHtml)<br/>
+import&nbsp;qualified&nbsp;Data.ByteString&nbsp;as&nbsp;B<br/>
+import&nbsp;qualified&nbsp;Data.Text&nbsp;as&nbsp;T<br/>
 <br/>
-escapeHtml :: String -&gt; String<br/>
-escapeHtml = renderHtml . toHtml<br/>
+escapeHtml&nbsp;::&nbsp;String&nbsp;-&gt;&nbsp;String<br/>
+escapeHtml&nbsp;=&nbsp;renderHtml&nbsp;.&nbsp;toHtml<br/>
 <br/>
-runtime :: RuntimeSplice IO T.Text<br/>
-runtime = liftIO $ do<br/>
-  T.pack &lt;$&gt; S.replace &quot;\n&quot; &quot;&lt;br/&gt;\n&quot; &lt;$&gt; escapeHtml &lt;$&gt; readFile &quot;src/Main.hs&quot;<br/>
+runtime&nbsp;::&nbsp;RuntimeSplice&nbsp;IO&nbsp;T.Text<br/>
+runtime&nbsp;=&nbsp;liftIO&nbsp;$&nbsp;do<br/>
+&nbsp;&nbsp;T.pack&nbsp;&lt;$&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;S.replace&nbsp;&quot;&nbsp;&quot;&nbsp;&quot;&amp;nbsp;&quot;&nbsp;&lt;$&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;S.replace&nbsp;&quot;\n&quot;&nbsp;&quot;&lt;br/&gt;\n&quot;&nbsp;&lt;$&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;escapeHtml&nbsp;&lt;$&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;readFile&nbsp;&quot;src/Main.hs&quot;<br/>
 <br/>
-splice :: Splice IO<br/>
-splice = return $ C.yieldRuntimeText $ runtime<br/>
+splice&nbsp;::&nbsp;Splice&nbsp;IO<br/>
+splice&nbsp;=&nbsp;return&nbsp;$&nbsp;C.yieldRuntimeText&nbsp;$&nbsp;runtime<br/>
 <br/>
-main :: IO ()<br/>
-main = do<br/>
-  let<br/>
-    heistConfig = mempty<br/>
-      {<br/>
-        hcCompiledSplices = &quot;code-snippet&quot; ## splice,<br/>
-        hcTemplateLocations = [loadTemplates &quot;.&quot;]<br/>
-      }<br/>
-  heistState &lt;- either (error &quot;Malformed template?&quot;) id &lt;$&gt;<br/>
-       (runEitherT $ initHeist heistConfig)<br/>
-  builder &lt;- maybe (error &quot;oops&quot;) fst $<br/>
-       renderTemplate heistState &quot;templates/index&quot;<br/>
+main&nbsp;::&nbsp;IO&nbsp;()<br/>
+main&nbsp;=&nbsp;do<br/>
+&nbsp;&nbsp;let<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;heistConfig&nbsp;=&nbsp;mempty<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hcCompiledSplices&nbsp;=&nbsp;&quot;code-snippet&quot;&nbsp;##&nbsp;splice,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hcTemplateLocations&nbsp;=&nbsp;[loadTemplates&nbsp;&quot;.&quot;]<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;heistState&nbsp;&lt;-&nbsp;either&nbsp;(error&nbsp;&quot;Malformed&nbsp;template?&quot;)&nbsp;id&nbsp;&lt;$&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(runEitherT&nbsp;$&nbsp;initHeist&nbsp;heistConfig)<br/>
+&nbsp;&nbsp;builder&nbsp;&lt;-&nbsp;maybe&nbsp;(error&nbsp;&quot;oops&quot;)&nbsp;fst&nbsp;$<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;renderTemplate&nbsp;heistState&nbsp;&quot;templates/index&quot;<br/>
 <br/>
-  let html = toByteString builder<br/>
-  B.writeFile &quot;static/index.html&quot; html<br/>
-  putStrLn &quot;Done&quot;<br/>
+&nbsp;&nbsp;let&nbsp;html&nbsp;=&nbsp;toByteString&nbsp;builder<br/>
+&nbsp;&nbsp;B.writeFile&nbsp;&quot;static/index.html&quot;&nbsp;html<br/>
+&nbsp;&nbsp;putStrLn&nbsp;&quot;Done&quot;<br/>
 <br/>
-&#10;      </div>&#10;      <a href='#' class='slidesjs-previous slidesjs-navigation'><i class='icon-chevron-left icon-large'></i></a>&#10;      <a href='#' class='slidesjs-next slidesjs-navigation'><i class='icon-chevron-right icon-large'></i></a>&#10;    </div>&#10;  </div>&#10;  <!-- End SlidesJS Required: Start Slides -->&#10;
+</tt>&#10;      </div>&#10;      <a href='#' class='slidesjs-previous slidesjs-navigation'><i class='icon-chevron-left icon-large'></i></a>&#10;      <a href='#' class='slidesjs-next slidesjs-navigation'><i class='icon-chevron-right icon-large'></i></a>&#10;    </div>&#10;  </div>&#10;  <!-- End SlidesJS Required: Start Slides -->&#10;
   <!-- SlidesJS Required: Link to jQuery -->&#10;  <script src='js/jquery-1.9.1.min.js'></script>&#10;  <!-- End SlidesJS Required -->&#10;
   <!-- SlidesJS Required: Link to jquery.slides.js -->&#10;  <script src='js/jquery.slides.min.js'></script>&#10;  <!-- End SlidesJS Required -->&#10;
   <!-- SlidesJS Required: Initialize SlidesJS with a jQuery doc ready -->&#10;  <script>
