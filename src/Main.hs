@@ -3,6 +3,7 @@
 import Blaze.ByteString.Builder
 import Control.Applicative
 import Control.Monad
+import Control.Monad.IO.Class
 import Control.Monad.Trans.Either
 import Data.Monoid
 import Heist
@@ -10,12 +11,17 @@ import Heist.Compiled as C
 import Text.Blaze.Html (toHtml)
 import Text.Blaze.Html.Renderer.String (renderHtml)
 import qualified Data.ByteString as B
+import qualified Data.Text as T
 
 escapeHtml :: String -> String
 escapeHtml = renderHtml . toHtml
 
+runtime :: RuntimeSplice IO T.Text
+runtime = liftIO $ do
+  T.pack <$> readFile "src/Main.hs"
+
 splice :: Splice IO
-splice = C.runChildren
+splice = return $ C.yieldRuntimeText $ runtime
 
 main :: IO ()
 main = do

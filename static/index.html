@@ -146,7 +146,49 @@
         Language extension of interest: view patterns
       </div>&#10;      <div>
         Heist and how I generated this slide deck!
-      </div>&#10;      <div>&#10;        &#10;      </div>&#10;      <a href='#' class='slidesjs-previous slidesjs-navigation'><i class='icon-chevron-left icon-large'></i></a>&#10;      <a href='#' class='slidesjs-next slidesjs-navigation'><i class='icon-chevron-right icon-large'></i></a>&#10;    </div>&#10;  </div>&#10;  <!-- End SlidesJS Required: Start Slides -->&#10;
+      </div>&#10;      <div>&#10;        {-# LANGUAGE OverloadedStrings  #-}
+
+import Blaze.ByteString.Builder
+import Control.Applicative
+import Control.Monad
+import Control.Monad.IO.Class
+import Control.Monad.Trans.Either
+import Data.Monoid
+import Heist
+import Heist.Compiled as C
+import Text.Blaze.Html (toHtml)
+import Text.Blaze.Html.Renderer.String (renderHtml)
+import qualified Data.ByteString as B
+import qualified Data.Text as T
+
+escapeHtml :: String -> String
+escapeHtml = renderHtml . toHtml
+
+runtime :: RuntimeSplice IO T.Text
+runtime = liftIO $ do
+  T.pack <$> readFile "src/Main.hs"
+
+splice :: Splice IO
+splice = return $ C.yieldRuntimeText $ runtime
+
+main :: IO ()
+main = do
+  let
+    heistConfig = mempty
+      {
+        hcCompiledSplices = "code-snippet" ## splice,
+        hcTemplateLocations = [loadTemplates "."]
+      }
+  heistState <- either (error "Malformed template?") id <$>
+       (runEitherT $ initHeist heistConfig)
+  builder <- maybe (error "oops") fst $
+       renderTemplate heistState "templates/index"
+
+  let html = toByteString builder
+  B.writeFile "static/index.html" html
+  putStrLn "Done"
+
+&#10;      </div>&#10;      <a href='#' class='slidesjs-previous slidesjs-navigation'><i class='icon-chevron-left icon-large'></i></a>&#10;      <a href='#' class='slidesjs-next slidesjs-navigation'><i class='icon-chevron-right icon-large'></i></a>&#10;    </div>&#10;  </div>&#10;  <!-- End SlidesJS Required: Start Slides -->&#10;
   <!-- SlidesJS Required: Link to jQuery -->&#10;  <script src='js/jquery-1.9.1.min.js'></script>&#10;  <!-- End SlidesJS Required -->&#10;
   <!-- SlidesJS Required: Link to jquery.slides.js -->&#10;  <script src='js/jquery.slides.min.js'></script>&#10;  <!-- End SlidesJS Required -->&#10;
   <!-- SlidesJS Required: Initialize SlidesJS with a jQuery doc ready -->&#10;  <script>
