@@ -136,6 +136,11 @@
       background-repeat: no-repeat;
       background-position: right bottom;
     }
+
+    .code {
+      font-family: Monospace;
+      font-size: 120%;
+    }
   </style>
   <!-- SlidesJS Required: -->
 </head>
@@ -157,8 +162,8 @@
       <div>
         Heist and how I generated this slide deck!
       </div>
-      <div>
-        <tt><code-snippet file="HelloWorld.hs"/></tt>
+      <div class="code">
+        <code-snippet file="HelloWorld.hs"/>
       </div>
       <a href="#" class="slidesjs-previous slidesjs-navigation"><i class="icon-chevron-left icon-large"></i></a>
       <a href="#" class="slidesjs-next slidesjs-navigation"><i class="icon-chevron-right icon-large"></i></a>
