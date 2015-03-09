@@ -11,22 +11,25 @@ import Heist
 import Heist.Compiled as C
 import Text.Blaze.Html (toHtml)
 import Text.Blaze.Html.Renderer.String (renderHtml)
+import qualified Text.XmlHtml as X
 import qualified Data.ByteString as B
 import qualified Data.Text as T
 
 escapeHtml :: String -> String
 escapeHtml = renderHtml . toHtml
 
-runtime :: RuntimeSplice IO T.Text
-runtime = liftIO $ do
+runtime :: String -> RuntimeSplice IO T.Text
+runtime fileName = liftIO $ do
   T.pack <$>
     S.replace " " "&nbsp;" <$>
     S.replace "\n" "<br/>\n" <$>
     escapeHtml <$>
-    readFile "src/Main.hs"
+    readFile fileName
 
 splice :: Splice IO
-splice = return $ C.yieldRuntimeText $ runtime
+splice = do
+  input <- getParamNode
+  return $ C.yieldRuntimeText $ runtime "HelloWorld.hs"
 
 main :: IO ()
 main = do

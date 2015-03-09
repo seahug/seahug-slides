@@ -28,6 +28,7 @@ executable slide-show-gen
                         heist >= 0.13 && < 0.14,
                         MissingH,
                         text,
-                        transformers
+                        transformers,
+                        xmlhtml
   hs-source-dirs:      src
   default-language:    Haskell2010
