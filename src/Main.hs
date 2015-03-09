@@ -25,7 +25,7 @@ main = do
         hcCompiledSplices = "foo" ## splice,
         hcTemplateLocations = [loadTemplates "."]
       }
-  heistState <- either (error "oops") id <$>
+  heistState <- either (error "Malformed template?") id <$>
        (runEitherT $ initHeist heistConfig)
   builder <- maybe (error "oops") fst $
        renderTemplate heistState "templates/index"
