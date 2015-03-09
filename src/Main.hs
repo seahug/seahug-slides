@@ -6,6 +6,7 @@ import Control.Monad
 import Control.Monad.IO.Class
 import Control.Monad.Trans.Either
 import Data.Monoid
+import Data.String.Utils as S
 import Heist
 import Heist.Compiled as C
 import Text.Blaze.Html (toHtml)
@@ -18,7 +19,7 @@ escapeHtml = renderHtml . toHtml
 
 runtime :: RuntimeSplice IO T.Text
 runtime = liftIO $ do
-  T.pack <$> escapeHtml <$> readFile "src/Main.hs"
+  T.pack <$> S.replace "\n" "<br/>\n" <$> escapeHtml <$> readFile "src/Main.hs"
 
 splice :: Splice IO
 splice = return $ C.yieldRuntimeText $ runtime

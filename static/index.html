@@ -146,48 +146,49 @@
         Language extension of interest: view patterns
       </div>&#10;      <div>
         Heist and how I generated this slide deck!
-      </div>&#10;      <div>&#10;        {-# LANGUAGE OverloadedStrings  #-}
-
-import Blaze.ByteString.Builder
-import Control.Applicative
-import Control.Monad
-import Control.Monad.IO.Class
-import Control.Monad.Trans.Either
-import Data.Monoid
-import Heist
-import Heist.Compiled as C
-import Text.Blaze.Html (toHtml)
-import Text.Blaze.Html.Renderer.String (renderHtml)
-import qualified Data.ByteString as B
-import qualified Data.Text as T
-
-escapeHtml :: String -&gt; String
-escapeHtml = renderHtml . toHtml
-
-runtime :: RuntimeSplice IO T.Text
-runtime = liftIO $ do
-  T.pack &lt;$&gt; escapeHtml &lt;$&gt; readFile &quot;src/Main.hs&quot;
-
-splice :: Splice IO
-splice = return $ C.yieldRuntimeText $ runtime
-
-main :: IO ()
-main = do
-  let
-    heistConfig = mempty
-      {
-        hcCompiledSplices = &quot;code-snippet&quot; ## splice,
-        hcTemplateLocations = [loadTemplates &quot;.&quot;]
-      }
-  heistState &lt;- either (error &quot;Malformed template?&quot;) id &lt;$&gt;
-       (runEitherT $ initHeist heistConfig)
-  builder &lt;- maybe (error &quot;oops&quot;) fst $
-       renderTemplate heistState &quot;templates/index&quot;
-
-  let html = toByteString builder
-  B.writeFile &quot;static/index.html&quot; html
-  putStrLn &quot;Done&quot;
-
+      </div>&#10;      <div>&#10;        {-# LANGUAGE OverloadedStrings  #-}<br/>
+<br/>
+import Blaze.ByteString.Builder<br/>
+import Control.Applicative<br/>
+import Control.Monad<br/>
+import Control.Monad.IO.Class<br/>
+import Control.Monad.Trans.Either<br/>
+import Data.Monoid<br/>
+import Data.String.Utils as S<br/>
+import Heist<br/>
+import Heist.Compiled as C<br/>
+import Text.Blaze.Html (toHtml)<br/>
+import Text.Blaze.Html.Renderer.String (renderHtml)<br/>
+import qualified Data.ByteString as B<br/>
+import qualified Data.Text as T<br/>
+<br/>
+escapeHtml :: String -&gt; String<br/>
+escapeHtml = renderHtml . toHtml<br/>
+<br/>
+runtime :: RuntimeSplice IO T.Text<br/>
+runtime = liftIO $ do<br/>
+  T.pack &lt;$&gt; S.replace &quot;\n&quot; &quot;&lt;br/&gt;\n&quot; &lt;$&gt; escapeHtml &lt;$&gt; readFile &quot;src/Main.hs&quot;<br/>
+<br/>
+splice :: Splice IO<br/>
+splice = return $ C.yieldRuntimeText $ runtime<br/>
+<br/>
+main :: IO ()<br/>
+main = do<br/>
+  let<br/>
+    heistConfig = mempty<br/>
+      {<br/>
+        hcCompiledSplices = &quot;code-snippet&quot; ## splice,<br/>
+        hcTemplateLocations = [loadTemplates &quot;.&quot;]<br/>
+      }<br/>
+  heistState &lt;- either (error &quot;Malformed template?&quot;) id &lt;$&gt;<br/>
+       (runEitherT $ initHeist heistConfig)<br/>
+  builder &lt;- maybe (error &quot;oops&quot;) fst $<br/>
+       renderTemplate heistState &quot;templates/index&quot;<br/>
+<br/>
+  let html = toByteString builder<br/>
+  B.writeFile &quot;static/index.html&quot; html<br/>
+  putStrLn &quot;Done&quot;<br/>
+<br/>
 &#10;      </div>&#10;      <a href='#' class='slidesjs-previous slidesjs-navigation'><i class='icon-chevron-left icon-large'></i></a>&#10;      <a href='#' class='slidesjs-next slidesjs-navigation'><i class='icon-chevron-right icon-large'></i></a>&#10;    </div>&#10;  </div>&#10;  <!-- End SlidesJS Required: Start Slides -->&#10;
   <!-- SlidesJS Required: Link to jQuery -->&#10;  <script src='js/jquery-1.9.1.min.js'></script>&#10;  <!-- End SlidesJS Required -->&#10;
   <!-- SlidesJS Required: Link to jquery.slides.js -->&#10;  <script src='js/jquery.slides.min.js'></script>&#10;  <!-- End SlidesJS Required -->&#10;

@@ -25,6 +25,9 @@ executable slide-show-gen
                         blaze-html,
                         bytestring,
                         either,
-                        heist >= 0.13 && < 0.14
+                        heist >= 0.13 && < 0.14,
+                        MissingH,
+                        text,
+                        transformers
   hs-source-dirs:      src
   default-language:    Haskell2010
