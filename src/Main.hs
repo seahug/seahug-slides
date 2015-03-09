@@ -22,7 +22,7 @@ main = do
   let
     heistConfig = mempty
       {
-        hcCompiledSplices = "foo" ## splice,
+        hcCompiledSplices = "code-snippet" ## splice,
         hcTemplateLocations = [loadTemplates "."]
       }
   heistState <- either (error "Malformed template?") id <$>
@@ -32,4 +32,5 @@ main = do
 
   let html = toByteString builder
   B.writeFile "static/index.html" html
-  putStrLn $ escapeHtml "<em>HELLO</em>"
+  putStrLn "Done"
+
