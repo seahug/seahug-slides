@@ -154,6 +154,7 @@
       </div>
       <div>
         Heist and how I generated this slide deck!
+      </div>
       <div>
         <code-snippet/>
       </div>
