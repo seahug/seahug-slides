@@ -141,7 +141,12 @@
       margin-left: 2em;
       color: purple;
       font-family: Monospace;
-      font-size: 120%;
+      font-size: 110%;
+      font-weight: bold;
+    }
+
+    tt {
+      color: purple;
       font-weight: bold;
     }
   </style>
@@ -153,6 +158,19 @@
   <!-- The container is used to define the width of the slideshow -->
   <div class="container">
     <div id="slides">
+      <div>
+        <h2>Help me do this idiomatically</h2>
+        <div class="code">
+          <code-snippet file="snippets/folds.hs"/>
+        </div>
+        <ul>
+          <li>Should I use <tt>foldl'</tt> or <tt>foldr</tt> instead?</li>
+          <li>If so, is it straightforward to maintain the ordering?</li>
+          <li>Is there a more idiomatic way to do this kind of thing?</li>
+          <li>How do I refactor this to use state monad?</li>
+          <li>Should I refactor this to use state monad?</li>
+        </ul>
+      </div>
       <div>
         <h2><tt>x : xs</tt> efficiency problem mentioned in <em>Real World Haskell</em></h2>
         <ul>
@@ -168,9 +186,6 @@
           <li>Given how sophisticated GHC is reputed to be, it would worry me if the fairly obvious optimization isn't automatic</li>
           <li>What's the consensus?</li>
         </ul>
-      </div>
-      <div>
-        Folding idiomatically: <tt>foldr</tt> vs. <tt>foldl</tt> vs. <tt>foldl'</tt>
       </div>
       <div>
         Language extension of interest: view patterns
