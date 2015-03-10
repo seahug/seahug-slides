@@ -10,5 +10,5 @@ PROJECTDIR=$(dirname $SCRIPTDIR)
 
 pushd $PROJECTDIR
 cabal exec runhaskell -- \
-  $SCRIPTDIR/src/Main.hs
+  $PROJECTDIR/src/Main.hs
 
