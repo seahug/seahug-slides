@@ -137,15 +137,30 @@
     }
 
     .code {
+      margin-left: 2em;
+      color: purple;
       font-family: Monospace;
       font-size: 120%;
+      font-weight: bold;
     }
   </style>
   <!-- SlidesJS Required: -->
 </head>&#10;<body>&#10;
-  <!-- SlidesJS Required: Start Slides -->&#10;  <!-- The container is used to define the width of the slideshow -->&#10;  <div class="container">&#10;    <div id="slides">&#10;      <div>
-        <tt>x : xs</tt> efficiency problem mentioned in <em>Real World Haskell</em>
-      </div>&#10;      <div>
+  <!-- SlidesJS Required: Start Slides -->&#10;  <!-- The container is used to define the width of the slideshow -->&#10;  <div class="container">&#10;    <div id="slides">&#10;      <div>&#10;        <h2><tt>x : xs</tt> efficiency problem mentioned in <em>Real World Haskell</em></h2>&#10;        <ul>
+          <li>Source: page 41 of <em>Real World Haskell</em></li>
+          <li>Link: <a href='http://book.realworldhaskell.org/read/functional-programming.html#fp.aspatterns'>http://book.realworldhaskell.org/read/functional-programming.html#fp.aspatterns</a></li>
+        </ul>&#10;        <div class="code">&#10;          asPattern&nbsp;::&nbsp;[a]&nbsp;-&gt;&nbsp;[a]<br/>
+asPattern&nbsp;xs@(x&nbsp;:&nbsp;xs&#39;)&nbsp;=&nbsp;xs<br/>
+<br/>
+noAsPattern&nbsp;::&nbsp;[a]&nbsp;-&gt;&nbsp;[a]<br/>
+noAsPattern&nbsp;(x&nbsp;:&nbsp;xs)&nbsp;=&nbsp;(x&nbsp;:&nbsp;xs)<br/>
+<br/>
+&#10;        </div>&#10;        <ul>
+          <li>Claim is that <tt>asPattern</tt> is more efficient than <tt>noAsPattern</tt></li>
+          <li>There are many comments about this in annotated online version of book</li>
+          <li>Given how sophisticated GHC is reputed to be, it would worry me if the fairly obvious optimization isn't automatic</li>
+          <li>What's the consensus?</li>
+        </ul>&#10;      </div>&#10;      <div>
         Folding idiomatically: <tt>foldr</tt> vs. <tt>foldl</tt> vs. <tt>foldl'</tt>
       </div>&#10;      <div>
         Language extension of interest: view patterns

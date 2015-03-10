@@ -138,8 +138,11 @@
     }
 
     .code {
+      margin-left: 2em;
+      color: purple;
       font-family: Monospace;
       font-size: 120%;
+      font-weight: bold;
     }
   </style>
   <!-- SlidesJS Required: -->
@@ -151,7 +154,20 @@
   <div class="container">
     <div id="slides">
       <div>
-        <tt>x : xs</tt> efficiency problem mentioned in <em>Real World Haskell</em>
+        <h2><tt>x : xs</tt> efficiency problem mentioned in <em>Real World Haskell</em></h2>
+        <ul>
+          <li>Source: page 41 of <em>Real World Haskell</em></li>
+          <li>Link: <a href="http://book.realworldhaskell.org/read/functional-programming.html#fp.aspatterns">http://book.realworldhaskell.org/read/functional-programming.html#fp.aspatterns</a></li>
+        </ul>
+        <div class="code">
+          <code-snippet file="snippets/as-patterns.hs"/>
+        </div>
+        <ul>
+          <li>Claim is that <tt>asPattern</tt> is more efficient than <tt>noAsPattern</tt></li>
+          <li>There are many comments about this in annotated online version of book</li>
+          <li>Given how sophisticated GHC is reputed to be, it would worry me if the fairly obvious optimization isn't automatic</li>
+          <li>What's the consensus?</li>
+        </ul>
       </div>
       <div>
         Folding idiomatically: <tt>foldr</tt> vs. <tt>foldl</tt> vs. <tt>foldl'</tt>
