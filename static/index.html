@@ -151,11 +151,11 @@
   </style>
   <!-- SlidesJS Required: -->
 </head>&#10;<body>&#10;
-  <!-- SlidesJS Required: Start Slides -->&#10;  <!-- The container is used to define the width of the slideshow -->&#10;  <div class="container">&#10;    <div id="slides">&#10;      <div>&#10;        <h2>Help me do this idiomatically</h2>&#10;        <div class="code">&#10;          data&nbsp;Context&nbsp;=&nbsp;Context&nbsp;Int<br/>
+  <!-- SlidesJS Required: Start Slides -->&#10;  <!-- The container is used to define the width of the slideshow -->&#10;  <div class="container">&#10;    <div id="slides">&#10;      <div>&#10;        <h2>Help me do this idiomatically (1/3)</h2>&#10;        <div class="code">&#10;          data&nbsp;Context&nbsp;=&nbsp;Context&nbsp;Int<br/>
 <br/>
 tagItems&nbsp;::&nbsp;([a],&nbsp;Context)&nbsp;-&gt;&nbsp;([(a,&nbsp;Int)],&nbsp;Context)<br/>
 tagItems&nbsp;(ys,&nbsp;ctx)&nbsp;=&nbsp;foldl&nbsp;f&nbsp;([],&nbsp;ctx)&nbsp;ys<br/>
-&nbsp;&nbsp;where&nbsp;f&nbsp;(items,&nbsp;(Context&nbsp;x))&nbsp;item&nbsp;=&nbsp;(items&nbsp;++&nbsp;[(item,&nbsp;x)],&nbsp;Context&nbsp;(x&nbsp;+&nbsp;1))<br/>
+&nbsp;&nbsp;where&nbsp;f&nbsp;(items,&nbsp;(Context&nbsp;x))&nbsp;y&nbsp;=&nbsp;(items&nbsp;++&nbsp;[(y,&nbsp;x)],&nbsp;Context&nbsp;(x&nbsp;+&nbsp;1))<br/>
 <br/>
 main&nbsp;::&nbsp;IO&nbsp;()<br/>
 main&nbsp;=&nbsp;do<br/>
@@ -164,13 +164,32 @@ main&nbsp;=&nbsp;do<br/>
 &nbsp;&nbsp;putStrLn&nbsp;$&nbsp;show&nbsp;items<br/>
 --&nbsp;Yields:&nbsp;[(&quot;one&quot;,1000),(&quot;two&quot;,1001),(&quot;three&quot;,1002)]<br/>
 <br/>
-&#10;        </div>&#10;        <ul>
+&#10;        </div>&#10;      </div>&#10;      <div>&#10;        <h2>Help me do this idiomatically (2/3)</h2>&#10;        <div class="code">&#10;          import&nbsp;Data.List<br/>
+import&nbsp;Data.Tuple<br/>
+<br/>
+data&nbsp;Context&nbsp;=&nbsp;Context&nbsp;Int<br/>
+<br/>
+tagItems&nbsp;::&nbsp;([a],&nbsp;Context)&nbsp;-&gt;&nbsp;([(a,&nbsp;Int)],&nbsp;Context)<br/>
+tagItems&nbsp;(ys,&nbsp;ctx)&nbsp;=&nbsp;swap&nbsp;$&nbsp;mapAccumL&nbsp;f&nbsp;ctx&nbsp;ys<br/>
+&nbsp;&nbsp;where&nbsp;f&nbsp;(Context&nbsp;x)&nbsp;y&nbsp;=&nbsp;(Context&nbsp;(x&nbsp;+&nbsp;1),&nbsp;(y,&nbsp;x))<br/>
+<br/>
+main&nbsp;::&nbsp;IO&nbsp;()<br/>
+main&nbsp;=&nbsp;do<br/>
+&nbsp;&nbsp;let&nbsp;ctx&nbsp;=&nbsp;Context&nbsp;1000<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(items,&nbsp;ctx&#39;)&nbsp;=&nbsp;tagItems&nbsp;([&quot;one&quot;,&nbsp;&quot;two&quot;,&nbsp;&quot;three&quot;],&nbsp;ctx)<br/>
+&nbsp;&nbsp;putStrLn&nbsp;$&nbsp;show&nbsp;items<br/>
+--&nbsp;Yields:&nbsp;[(&quot;one&quot;,1000),(&quot;two&quot;,1001),(&quot;three&quot;,1002)]<br/>
+<br/>
+&#10;        </div>&#10;      </div>&#10;      <div>
+        <h2>Help me do this idiomatically (3/3)</h2>
+        <ul>
           <li>Should I use <tt>foldl'</tt> or <tt>foldr</tt> instead?</li>
           <li>If so, is it straightforward to maintain the ordering?</li>
           <li>Is there a more idiomatic way to do this kind of thing?</li>
-          <li>How do I refactor this to use state monad?</li>
-          <li>Should I refactor this to use state monad?</li>
-        </ul>&#10;      </div>&#10;      <div>&#10;        <h2><tt>x : xs</tt> efficiency problem mentioned in <em>Real World Haskell</em></h2>&#10;        <ul>
+          <li>How do I refactor this to use the state monad?</li>
+          <li>Should I refactor this to use the state monad?</li>
+        </ul>
+      </div>&#10;      <div>&#10;        <h2><tt>x : xs</tt> efficiency problem mentioned in <em>Real World Haskell</em></h2>&#10;        <ul>
           <li>Source: page 41 of <em>Real World Haskell</em></li>
           <li>Link: <a href='http://book.realworldhaskell.org/read/functional-programming.html#fp.aspatterns'>http://book.realworldhaskell.org/read/functional-programming.html#fp.aspatterns</a></li>
         </ul>&#10;        <div class="code">&#10;          asPattern&nbsp;::&nbsp;[a]&nbsp;-&gt;&nbsp;[a]<br/>

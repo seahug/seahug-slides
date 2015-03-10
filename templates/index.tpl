@@ -159,16 +159,25 @@
   <div class="container">
     <div id="slides">
       <div>
-        <h2>Help me do this idiomatically</h2>
+        <h2>Help me do this idiomatically (1/3)</h2>
         <div class="code">
-          <code-snippet file="snippets/folds.hs"/>
+          <code-snippet file="snippets/folds-part-1.hs"/>
         </div>
+      </div>
+      <div>
+        <h2>Help me do this idiomatically (2/3)</h2>
+        <div class="code">
+          <code-snippet file="snippets/folds-part-2.hs"/>
+        </div>
+      </div>
+      <div>
+        <h2>Help me do this idiomatically (3/3)</h2>
         <ul>
           <li>Should I use <tt>foldl'</tt> or <tt>foldr</tt> instead?</li>
           <li>If so, is it straightforward to maintain the ordering?</li>
           <li>Is there a more idiomatic way to do this kind of thing?</li>
-          <li>How do I refactor this to use state monad?</li>
-          <li>Should I refactor this to use state monad?</li>
+          <li>How do I refactor this to use the state monad?</li>
+          <li>Should I refactor this to use the state monad?</li>
         </ul>
       </div>
       <div>

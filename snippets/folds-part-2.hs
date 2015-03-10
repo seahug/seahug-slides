@@ -1,8 +1,11 @@
+import Data.List
+import Data.Tuple
+
 data Context = Context Int
 
 tagItems :: ([a], Context) -> ([(a, Int)], Context)
-tagItems (ys, ctx) = foldl f ([], ctx) ys
-  where f (items, (Context x)) item = (items ++ [(item, x)], Context (x + 1))
+tagItems (ys, ctx) = swap $ mapAccumL f ctx ys
+  where f (Context x) y = (Context (x + 1), (y, x))
 
 main :: IO ()
 main = do
