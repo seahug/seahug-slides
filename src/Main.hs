@@ -48,9 +48,9 @@ main = do
         hcCompiledSplices = "code-snippet" ## codeSnippetSplice,
         hcTemplateLocations = [loadTemplates "."]
       }
-  heistState <- either (error "Malformed template?") id <$>
+  heistState <- either (error "Malformed template") id <$>
                 (runEitherT $ initHeist heistConfig)
-  builder <- maybe (error "oops") fst $
+  builder <- maybe (error "Failed to render template") fst $
              renderTemplate heistState "templates/index"
 
   let html = toByteString builder
