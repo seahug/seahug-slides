@@ -26,18 +26,21 @@ codeSnippet :: String -> RuntimeSplice IO T.Text
 codeSnippet fileName = liftIO $ do
   T.pack <$> formatCodeSnippet <$> readFile fileName
 
+getRequiredStringAttr :: X.Node -> T.Text -> String
+getRequiredStringAttr node name =
+  maybe (error $ printf "No attribute \"%s\" on element \"%s\"" (T.unpack name) (elementName node))
+  T.unpack $
+  X.getAttribute name node
+    where elementName :: X.Node -> String
+          elementName n = maybe (error "Node is not an element")
+                          T.unpack $
+                          X.tagName n
+
 codeSnippetSplice :: Splice IO
 codeSnippetSplice = do
   node <- getParamNode
   let
-    fileName =
-      maybe (error $ printf "No attribute \"file\" on element \"%s\"" $ elementName node)
-      T.unpack $
-      X.getAttribute "file" node
-        where elementName :: X.Node -> String
-              elementName n = maybe (error "Node is not an element")
-                              T.unpack $
-                              X.tagName n
+    fileName = getRequiredStringAttr node "file"
   return $ C.yieldRuntimeText $ codeSnippet fileName
 
 main :: IO ()
