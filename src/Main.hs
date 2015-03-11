@@ -26,8 +26,8 @@ codeSnippet :: String -> RuntimeSplice IO T.Text
 codeSnippet fileName = liftIO $ do
   T.pack <$> formatCodeSnippet <$> readFile fileName
 
-formatNoSuchAttributeMessage :: X.Node -> T.Text -> String
-formatNoSuchAttributeMessage node name =
+noSuchAttrMessage :: X.Node -> T.Text -> String
+noSuchAttrMessage node name =
   printf "No attribute \"%s\" on element \"%s\"" (T.unpack name) (elementName node)
   where elementName :: X.Node -> String
         elementName n = maybe (error "Node is not an element")
@@ -36,7 +36,7 @@ formatNoSuchAttributeMessage node name =
 
 getRequiredStringAttr :: X.Node -> T.Text -> String
 getRequiredStringAttr node name =
-  maybe (error $ formatNoSuchAttributeMessage node name)
+  maybe (error $ noSuchAttrMessage node name)
   T.unpack $
   X.getAttribute name node
 
