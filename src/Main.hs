@@ -11,6 +11,7 @@ import Heist
 import Heist.Compiled as C
 import Text.Blaze.Html (toHtml)
 import Text.Blaze.Html.Renderer.String (renderHtml)
+import Text.Printf (printf)
 import qualified Text.XmlHtml as X
 import qualified Data.ByteString as B
 import qualified Data.Text as T
@@ -30,9 +31,9 @@ splice :: Splice IO
 splice = do
   input <- getParamNode
   let
-    fileName = maybe
-      (error "No attribute \"file\"")
-      T.unpack $
+    elementName = maybe (error "Node is not an element") T.unpack $
+      X.tagName input
+    fileName = maybe (error $ printf "No attribute \"file\" on element \"%s\"" elementName) T.unpack $
       X.getAttribute "file" input
   return $ C.yieldRuntimeText $ runtime fileName
 
