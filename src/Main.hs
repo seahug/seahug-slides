@@ -26,37 +26,36 @@ codeSnippet :: String -> RuntimeSplice IO T.Text
 codeSnippet fileName = liftIO $ do
   T.pack <$> formatCodeSnippet <$> readFile fileName
 
-noSuchAttrMessage :: X.Node -> T.Text -> String
-noSuchAttrMessage node name =
+missingAttrMessage :: X.Node -> T.Text -> String
+missingAttrMessage node name =
   printf "No attribute \"%s\" on element \"%s\"" (T.unpack name) (elementName node)
   where elementName :: X.Node -> String
         elementName n = maybe (error "Node is not an element")
                         T.unpack $
                         X.tagName n
 
-getRequiredStringAttr :: X.Node -> T.Text -> String
-getRequiredStringAttr node name =
-  maybe (error $ noSuchAttrMessage node name)
+getRequiredAttr :: X.Node -> T.Text -> String
+getRequiredAttr node name =
+  maybe (error $ missingAttrMessage node name)
   T.unpack $
   X.getAttribute name node
 
 codeSnippetSplice :: Splice IO
 codeSnippetSplice = do
   node <- getParamNode
-  let
-    fileName = getRequiredStringAttr node "file"
+  let fileName = getRequiredAttr node "file"
   return $ C.yieldRuntimeText $ codeSnippet fileName
 
 main :: IO ()
 main = do
-  let
-    heistConfig = mempty
-      {
+  let heistConfig = mempty {
         hcCompiledSplices = "code-snippet" ## codeSnippetSplice,
         hcTemplateLocations = [loadTemplates "."]
       }
+
   heistState <- either (error "Malformed template") id <$>
                 (runEitherT $ initHeist heistConfig)
+
   builder <- maybe (error "Failed to render template") fst $
              renderTemplate heistState "templates/index"
 
