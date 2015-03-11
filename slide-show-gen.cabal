@@ -30,6 +30,7 @@ executable slide-show-gen
                         Glob,
                         heist >= 0.13 && < 0.14,
                         MissingH,
+                        stringsearch,
                         text,
                         transformers,
                         xmlhtml

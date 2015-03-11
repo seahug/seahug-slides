@@ -17,6 +17,8 @@ import Text.Blaze.Html.Renderer.String (renderHtml)
 import Text.Printf (printf)
 import qualified Data.ByteString as B
 import qualified Data.ByteString.Char8 as C8 (pack)
+import qualified Data.ByteString.Lazy as LB
+import qualified Data.ByteString.Search as BSearch
 import qualified Data.Text as T
 import qualified System.FilePath.Glob as Glob
 import qualified Text.XmlHtml as X
@@ -51,12 +53,17 @@ codeSnippetSplice = do
   let fileName = getRequiredAttr node "file"
   return $ C.yieldRuntimeText $ codeSnippet fileName
 
+-- What's up with string handling in Haskell?
+-- Why do I have to expend so much effort converting back and forth?
+fixUpHtml :: B.ByteString -> LB.ByteString
+fixUpHtml s = BSearch.replace (C8.pack "&#13;\n") (C8.pack "&#10;") s
+
 renderHtmlFile :: HeistState IO -> String -> String -> IO ()
 renderHtmlFile heistState templateFileName htmlFileName = do
   builder <- maybe (error "Failed to render template") fst $
              renderTemplate heistState $ C8.pack $ dropExtension templateFileName
   let html = toByteString builder
-  B.writeFile htmlFileName html
+  LB.writeFile htmlFileName $ fixUpHtml html
 
 templateDir :: String
 templateDir = "templates"
