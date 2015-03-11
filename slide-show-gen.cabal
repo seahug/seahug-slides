@@ -25,6 +25,7 @@ executable slide-show-gen
                         blaze-html,
                         bytestring,
                         either,
+                        Glob,
                         heist >= 0.13 && < 0.14,
                         MissingH,
                         text,
