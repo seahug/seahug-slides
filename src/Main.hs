@@ -26,8 +26,8 @@ codeSnippet :: String -> RuntimeSplice IO T.Text
 codeSnippet fileName = liftIO $ do
   T.pack <$> formatCodeSnippet <$> readFile fileName
 
-splice :: Splice IO
-splice = do
+codeSnippetSplice :: Splice IO
+codeSnippetSplice = do
   node <- getParamNode
   let
     fileName =
@@ -45,13 +45,13 @@ main = do
   let
     heistConfig = mempty
       {
-        hcCompiledSplices = "code-snippet" ## splice,
+        hcCompiledSplices = "code-snippet" ## codeSnippetSplice,
         hcTemplateLocations = [loadTemplates "."]
       }
   heistState <- either (error "Malformed template?") id <$>
-       (runEitherT $ initHeist heistConfig)
+                (runEitherT $ initHeist heistConfig)
   builder <- maybe (error "oops") fst $
-       renderTemplate heistState "templates/index"
+             renderTemplate heistState "templates/index"
 
   let html = toByteString builder
   B.writeFile "static/index.html" html
