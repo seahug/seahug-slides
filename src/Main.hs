@@ -19,23 +19,26 @@ import qualified Data.Text as T
 escapeHtml :: String -> String
 escapeHtml = renderHtml . toHtml
 
-runtime :: String -> RuntimeSplice IO T.Text
-runtime fileName = liftIO $ do
-  T.pack <$>
-    S.replace " " "&nbsp;" <$>
-    S.replace "\n" "<br/>\n" <$>
-    escapeHtml <$>
-    readFile fileName
+formatCodeSnippet :: String -> String
+formatCodeSnippet = (S.replace " " "&nbsp;") . (S.replace "\n" "<br/>\n") . escapeHtml
+
+codeSnippet :: String -> RuntimeSplice IO T.Text
+codeSnippet fileName = liftIO $ do
+  T.pack <$> formatCodeSnippet <$> readFile fileName
 
 splice :: Splice IO
 splice = do
-  input <- getParamNode
+  node <- getParamNode
   let
-    elementName = maybe (error "Node is not an element") T.unpack $
-      X.tagName input
-    fileName = maybe (error $ printf "No attribute \"file\" on element \"%s\"" elementName) T.unpack $
-      X.getAttribute "file" input
-  return $ C.yieldRuntimeText $ runtime fileName
+    fileName =
+      maybe (error $ printf "No attribute \"file\" on element \"%s\"" $ elementName node)
+      T.unpack $
+      X.getAttribute "file" node
+        where elementName :: X.Node -> String
+              elementName n = maybe (error "Node is not an element")
+                              T.unpack $
+                              X.tagName n
+  return $ C.yieldRuntimeText $ codeSnippet fileName
 
 main :: IO ()
 main = do
