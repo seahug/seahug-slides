@@ -30,9 +30,10 @@ splice :: Splice IO
 splice = do
   input <- getParamNode
   let
-    fileName = case X.getAttribute "file" input of
-      Just value -> T.unpack value
-      Nothing -> error "No attribute \"file\""
+    fileName = maybe
+      (error "No attribute \"file\"")
+      T.unpack $
+      X.getAttribute "file" input
   return $ C.yieldRuntimeText $ runtime fileName
 
 main :: IO ()
