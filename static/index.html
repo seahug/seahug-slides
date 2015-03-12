@@ -221,9 +221,24 @@ noAsPattern&nbsp;(x&nbsp;:&nbsp;xs)&nbsp;=&nbsp;(x&nbsp;:&nbsp;xs)<br/>
           <li>But, that's kind of confusing</li>
           <li>How do I search and replace multiple strings?</li>
         </ul>
-      </div>&#10;      <div>
-        Language extension of interest: view patterns
-      </div>&#10;      <a href='#' class='slidesjs-previous slidesjs-navigation'><i class='icon-chevron-left icon-large'></i></a>&#10;      <a href='#' class='slidesjs-next slidesjs-navigation'><i class='icon-chevron-right icon-large'></i></a>&#10;    </div>&#10;  </div>&#10;  <!-- End SlidesJS Required: Start Slides -->&#10;
+      </div>&#10;      <div>&#10;        <h2>Language extension of interest: view patterns</h2>&#10;        <div class="code">&#10;          {-#&nbsp;LANGUAGE&nbsp;ViewPatterns&nbsp;#-}<br/>
+<br/>
+--&nbsp;Abstract&nbsp;type:&nbsp;data&nbsp;constructor&nbsp;would&nbsp;typically&nbsp;not&nbsp;be&nbsp;exported<br/>
+data&nbsp;Widget&nbsp;=&nbsp;Widget&nbsp;String&nbsp;String<br/>
+createWidget&nbsp;n&nbsp;d&nbsp;=&nbsp;Widget&nbsp;n&nbsp;d<br/>
+widgetName&nbsp;(Widget&nbsp;n&nbsp;_)&nbsp;=&nbsp;n<br/>
+widgetDesc&nbsp;(Widget&nbsp;_&nbsp;d)&nbsp;=&nbsp;d<br/>
+<br/>
+--&nbsp;View&nbsp;type&nbsp;and&nbsp;function&nbsp;dependent&nbsp;only&nbsp;on&nbsp;public&nbsp;interface<br/>
+data&nbsp;WidgetV&nbsp;=&nbsp;WidgetV&nbsp;String&nbsp;String<br/>
+widgetV&nbsp;w&nbsp;=&nbsp;WidgetV&nbsp;n&nbsp;d&nbsp;where&nbsp;n&nbsp;=&nbsp;widgetName&nbsp;w;&nbsp;d&nbsp;=&nbsp;widgetDesc&nbsp;w<br/>
+<br/>
+--&nbsp;Function&nbsp;that&nbsp;pattern-matches&nbsp;on&nbsp;view<br/>
+demo&nbsp;(widgetV&nbsp;-&gt;&nbsp;WidgetV&nbsp;n&nbsp;d)&nbsp;=&nbsp;&quot;name&nbsp;=&nbsp;&quot;&nbsp;++&nbsp;n&nbsp;++&nbsp;&quot;&nbsp;desc&nbsp;=&nbsp;&quot;&nbsp;++&nbsp;d<br/>
+<br/>
+main&nbsp;=&nbsp;putStrLn&nbsp;$&nbsp;demo&nbsp;$&nbsp;createWidget&nbsp;&quot;name&quot;&nbsp;&quot;desc&quot;<br/>
+<br/>
+&#10;        </div>&#10;      </div>&#10;      <a href='#' class='slidesjs-previous slidesjs-navigation'><i class='icon-chevron-left icon-large'></i></a>&#10;      <a href='#' class='slidesjs-next slidesjs-navigation'><i class='icon-chevron-right icon-large'></i></a>&#10;    </div>&#10;  </div>&#10;  <!-- End SlidesJS Required: Start Slides -->&#10;
   <!-- SlidesJS Required: Link to jQuery -->&#10;  <script src='js/jquery-1.9.1.min.js'></script>&#10;  <!-- End SlidesJS Required -->&#10;
   <!-- SlidesJS Required: Link to jquery.slides.js -->&#10;  <script src='js/jquery.slides.min.js'></script>&#10;  <!-- End SlidesJS Required -->&#10;
   <!-- SlidesJS Required: Initialize SlidesJS with a jQuery doc ready -->&#10;  <script>
