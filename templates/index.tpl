@@ -197,6 +197,25 @@
         </ul>
       </div>
       <div>
+        <h2>Search and replace with <tt>ByteString</tt></h2>
+        <ul>
+          <li>Documentation is <a href="https://hackage.haskell.org/package/stringsearch-0.3.3/docs/Data-ByteString-Search.html#g:7">here</a></li>
+          <li>Documentation for <tt>Data.ByteString.Search.replace</tt> claims:<br/>
+            <div class="code">
+              replace :: Substitution rep =&gt; ByteString -&gt; rep -&gt; ByteString -&gt; ByteString
+            </div>
+          </li>
+          <li>But, GHCI says:<br/>
+            <div class="code">
+              replace :: Substitution rep =&gt; B.ByteString -&gt; rep -&gt; B.ByteString -&gt; LB.ByteString
+            </div>
+          </li>
+          <li>To be fair, the documentation mentions the laziness of the result in passing</li>
+          <li>But, that's kind of confusing</li>
+          <li>How do I search and replace multiple strings?</li>
+        </ul>
+      </div>
+      <div>
         Language extension of interest: view patterns
       </div>
       <div>
