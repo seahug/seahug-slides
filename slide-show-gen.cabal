@@ -4,7 +4,7 @@
 name:                slide-show-gen
 version:             0.1.0.0
 synopsis:            Slide generator for SeaHUG slide decks
--- description:         
+description:         Slide generator for SeaHUG slide decks
 homepage:            https://github.com/rcook/seahug-slides/
 license:             MIT
 license-file:        LICENSE
