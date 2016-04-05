@@ -32,7 +32,7 @@ executable slide-show-gen
                         either,
                         filepath,
                         Glob,
-                        heist >= 0.13 && < 0.14,
+                        heist,
                         MissingH,
                         stringsearch,
                         text,
