@@ -8,7 +8,5 @@ SCRIPTPATH=$($READLINK -f $0)
 SCRIPTDIR=$(dirname $SCRIPTPATH)
 PROJECTDIR=$(dirname $SCRIPTDIR)
 
-pushd $PROJECTDIR
-cabal exec runhaskell -- \
-  $PROJECTDIR/src/Main.hs
-
+pushd $PROJECTDIR &&
+  stack runghc $PROJECTDIR/src/Main.hs

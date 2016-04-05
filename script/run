@@ -8,6 +8,6 @@ SCRIPTPATH=$($READLINK -f $0)
 SCRIPTDIR=$(dirname $SCRIPTPATH)
 PROJECTDIR=$(dirname $SCRIPTDIR)
 
-pushd $PROJECTDIR
-cabal run
-
+pushd $PROJECTDIR &&
+  stack build &&
+  stack exec seahug-slides

@@ -3,7 +3,8 @@ setlocal
 call :SetConfig %~dp0\.
 
 pushd %PROJECTDIR%
-cabal run
+stack build
+stack exec seahug-slides
 goto :eof
 
 :SetConfig

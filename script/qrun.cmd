@@ -3,8 +3,7 @@ setlocal
 call :SetConfig %~dp0\.
 
 pushd %PROJECTDIR%
-cabal exec runhaskell -- ^
-  %PROJECTDIR%\src\Main.hs
+stack run ghc %PROJECTDIR%\src\Main.hs
 goto :eof
 
 :SetConfig
