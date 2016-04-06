@@ -27,11 +27,10 @@ escapeHtml :: String -> String
 escapeHtml = renderHtml . toHtml
 
 formatCodeSnippet :: String -> String
-formatCodeSnippet = (S.replace " " "&nbsp;") . (S.replace "\n" "<br/>\n") . escapeHtml
+formatCodeSnippet = S.replace " " "&nbsp;" . S.replace "\n" "<br/>\n" . escapeHtml
 
 codeSnippet :: String -> RuntimeSplice IO T.Text
-codeSnippet fileName = liftIO $ do
-  T.pack <$> formatCodeSnippet <$> readFile fileName
+codeSnippet fileName = liftIO $ T.pack <$> formatCodeSnippet <$> readFile fileName
 
 missingAttrMessage :: X.Node -> T.Text -> String
 missingAttrMessage node name =
@@ -56,7 +55,7 @@ codeSnippetSplice = do
 -- What's up with string handling in Haskell?
 -- Why do I have to expend so much effort converting back and forth?
 fixUpHtml :: B.ByteString -> LB.ByteString
-fixUpHtml s = BSearch.replace (C8.pack "&#13;\n") (C8.pack "&#10;") s
+fixUpHtml = BSearch.replace (C8.pack "&#13;\n") (C8.pack "&#10;")
 
 renderHtmlFile :: HeistState IO -> String -> String -> IO ()
 renderHtmlFile heistState templateFileName htmlFileName = do
@@ -73,7 +72,7 @@ staticDir = "static"
 
 createFileNamePair :: FilePath -> (FilePath, FilePath)
 createFileNamePair fileName =
-  (templateDir ++ "/" ++ fileName, staticDir ++ "/" ++ (replaceExtension fileName ".html"))
+  (templateDir ++ "/" ++ fileName, staticDir ++ "/" ++ replaceExtension fileName ".html")
 
 main :: IO ()
 main = do
@@ -86,8 +85,6 @@ main = do
       }
 
   heistState <- either (error "Malformed template") id <$>
-                (runEitherT $ initHeist heistConfig)
+                runEitherT (initHeist heistConfig)
 
-  forM_ fileNamePairs $ \p -> do
-    renderHtmlFile heistState (fst p) (snd p)
-
+  forM_ fileNamePairs $ \p -> uncurry (renderHtmlFile heistState) p
